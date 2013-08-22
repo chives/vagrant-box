@@ -8,11 +8,11 @@ Vagrant.configure("2") do |config|
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     v.customize ["modifyvm", :id, "--memory", 1024]
-    v.customize ["modifyvm", :id, "--name", "project-name"] # change "project-name" to something more descriptive
+    v.customize ["modifyvm", :id, "--name", "PROJECT-NAME"] # change "PROJECT-NAME" to something more descriptive
   end
 
   nfs_setting = RUBY_PLATFORM =~ /darwin/ || RUBY_PLATFORM =~ /linux/
-  config.vm.synced_folder "./../", "/var/www/project-name", id: "vagrant-root" , :nfs => nfs_setting # change "project-name" to something more descriptive
+  config.vm.synced_folder "./../", "/var/www/PROJECT-NAME", id: "vagrant-root" , :nfs => nfs_setting # change "PROJECT-NAME" to something more descriptive
   config.vm.provision :shell, :inline => "sudo apt-get update"
 
 

@@ -4,7 +4,7 @@ First of all clone this repo into ``vagrant`` folder in your project's root dire
 
 ## Vagrantfile
 
-Copy file ``vagrant/Vagrantfile.dist`` to ``vagrant/Vagrantfile`` and change "project-name" in it to something uniquely
+Copy file ``vagrant/Vagrantfile.dist`` to ``vagrant/Vagrantfile`` and change "PROJECT-NAME" in it to something uniquely
 identifying your project.
 
 ## Default puppet manifest
@@ -15,7 +15,7 @@ configurations such as apache virtual host, directory of project's files and def
 
 **Important! Project's name cannot be longer than 12 character.**
 
-Please remember that this name must be used in all following instructions in place of ``project-name``.
+Please remember that this name must be used in all following instructions in place of ``PROJECT-NAME``.
 
 ## Install dependincies
 
@@ -36,7 +36,7 @@ installing deps from VM.
 ```
 $ cd vagrant
 $ vagrant ssh
-$ cd /var/www/project-name
+$ cd /var/www/PROJECT-NAME
 $ COMPOSER_VENDOR_DIR=/var/tmp/vendor composer install --dev --prefer-dist --no-scripts
 $ ln -s /var/tmp/vendor vendor
 ```
@@ -45,7 +45,7 @@ $ ln -s /var/tmp/vendor vendor
 
 ```
 $ vagrant ssh
-$ cd /var/www/project-name
+$ cd /var/www/PROJECT-NAME
 $ php app/console doctrine:schema:create --env="test"
 $ php app/console ca:cl --env="test"
 $ php app/console assets:install web --symlink
@@ -56,7 +56,7 @@ $ php app/console assets:install web --symlink
 Now you should add to /etc/hosts at you host machine following line:
 
 ```
-10.0.0.200      project-name.dev
+10.0.0.200      PROJECT-NAME.dev
 ```
 
-From now you should be able to access site at host machine under http://project-name.dev/ address.
+From now you should be able to access site at host machine under http://PROJECT-NAME.dev/ address.
