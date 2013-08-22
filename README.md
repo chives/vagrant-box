@@ -56,7 +56,7 @@ $ php app/console assets:install web --symlink
 Now you should add to /etc/hosts at you host machine following line:
 
 ```
-10.0.0.100      project-name.dev
+10.0.0.200      project-name.dev
 ```
 
 From now you should be able to access site at host machine under http://project-name.dev/ address.
