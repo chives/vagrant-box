@@ -13,6 +13,8 @@ Copy file ``vagrant/manifests/default.pp.dist`` to ``vagrant/manifests/default.p
 first line. This must be the same name as you used in ``Vagrantfile``. This name will be used in some puppet modules
 configurations such as apache virtual host, directory of project's files and default databases names inside VM.
 
+**Important! Project's name cannot be longer than 12 character.**
+
 Please remember that this name must be used in all following instructions in place of ``project-name``.
 
 ## Install dependincies

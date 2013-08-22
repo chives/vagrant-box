@@ -148,8 +148,8 @@ mysql::db { "${project_name}-test":
   grant    => [
     'ALL'
   ],
-  user     => "${project_name}-test",
-  password => "${project_name}-test",
+  user     => "${project_name}-tst",
+  password => "${project_name}-tst",
   host     => 'localhost',
   charset  => 'utf8',
   require  => Class['mysql::server'],
