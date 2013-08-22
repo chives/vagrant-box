@@ -144,7 +144,7 @@ mysql::db { "${project_name}":
   require  => Class['mysql::server'],
 }
 
-mysql::db { "${project_name}-test":
+mysql::db { "${project_name}-tst":
   grant    => [
     'ALL'
   ],
