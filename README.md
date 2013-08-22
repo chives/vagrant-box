@@ -39,6 +39,7 @@ $ vagrant ssh
 $ cd /var/www/project-name
 $ COMPOSER_VENDOR_DIR=/var/tmp/vendor composer install --dev --prefer-dist --no-scripts
 $ ln -s /var/tmp/vendor vendor
+```
 
 ## Install application's schema, assets, etc
 
