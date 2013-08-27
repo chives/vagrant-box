@@ -7,17 +7,19 @@ File { owner => 0, group => 0, mode => 0644 }
 file { "/dev/shm/sf2app":
   ensure => directory,
   purge => true,
-  force => true
+  force => true,
+  owner => vagrant,
+  group => vagrant
 }
 
 file { "/var/lock/apache2":
-  owner => vagrant,
-  group => vagrant,
+  ensure => directory,
+  owner => vagrant
 }
 
 exec { "ApacheUserChange" :
   command => "sed -i 's/export APACHE_RUN_USER=.*/export APACHE_RUN_USER=vagrant/ ; s/export APACHE_RUN_GROUP=.*/export APACHE_RUN_GROUP=vagrant/' /etc/apache2/envvars",
-  require => Package["apache"],
+  require => [ Package["apache"], File["/var/lock/apache2"] ],
   notify  => Service['apache'],
 }
 
