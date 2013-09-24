@@ -9,34 +9,53 @@ identifying your project.
 
 ## Default puppet manifest
 
-Copy file ``vagrant/manifests/default.pp.dist`` to ``vagrant/manifests/default.pp`` and change project's name in the
-first line. This must be the same name as you used in ``Vagrantfile``. This name will be used in some puppet modules
-configurations such as apache virtual host, directory of project's files and default databases names inside VM.
+Copy ``vagrant/manifests/default.pp.dist`` file content to ``vagrant/manifests/default.pp``  
+Now you can change values of configuration variables to make your project more personal.
 
-**Important! Project's name cannot be longer than 12 character.**
+* ``$host_name = "symfony-project.dev"`` - project domain (it will be used in /etc/hosts) 
+* ``$db_name = "symfony"`` - production database, username and pasword (can't be longer than 12 characters) 
+* ``$db_name_dev = "${db_name}-dev"`` - dev database, username and pasword (can't be longer than 12 characters)
+* ``$db_name_tst = "${db_name}-tst"`` - test database, username and pasword (can't be longer than 12 characters)
+* ``$install_selenium = false`` - change ``false`` to ``"true"`` if you want to install java and selenium
 
-Please remember that this name must be used in all following instructions in place of ``PROJECT-NAME``.
+For the above configuration you should have following configuration in app/config/parameters.yml file 
+
+```yml
+parameters:
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: symfony
+    database_user: symfony
+    database_password: symfony
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    locale: en
+    secret: ThisTokenIsNotSoSecretChangeIt
+```
 
 ## Install dependincies
 
 Then you can install dependencies from composer.json file if you don't have them already.
 This can be done in 2 different ways, from host machine and from vm machine.
 
-### When you can install vendors at host machine
+### Install vendors from host machine (recommended) 
 
 This should be done by developers that needs vendors for IDE code suggestions. Its also much faster than
 installing deps from VM.
 
 ```
-& composer.phar install --dev
+& composer.phar install
 ```
 
-### When you can't install vendors at host machine
+### Install vendors from virtual machine (not recommended) 
 
 ```
 $ cd vagrant
 $ vagrant ssh
-$ cd /var/www/PROJECT-NAME
+$ cd /var/www/symfony2_app
 $ COMPOSER_VENDOR_DIR=/var/tmp/vendor composer install --dev --prefer-dist --no-scripts
 $ ln -s /var/tmp/vendor vendor
 ```
@@ -45,7 +64,7 @@ $ ln -s /var/tmp/vendor vendor
 
 ```
 $ vagrant ssh
-$ cd /var/www/PROJECT-NAME
+$ cd /var/www/symfony2_app
 $ php app/console doctrine:schema:create --env="test"
 $ php app/console ca:cl --env="test"
 $ php app/console assets:install web --symlink
@@ -53,10 +72,10 @@ $ php app/console assets:install web --symlink
 
 ## /etc/hosts
 
-Now you should add to /etc/hosts at you host machine following line:
+Now you should add project domain (``$host_name`` from default.pp file) to /etc/hosts file at your host machine. 
 
 ```
-10.0.0.200      PROJECT-NAME.dev
+10.0.0.200      'symfony-project.dev'
 ```
 
-From now you should be able to access site at host machine under http://PROJECT-NAME.dev/ address.
+From now you should be able to access site at host machine under http://symfony-project.dev/ address.
