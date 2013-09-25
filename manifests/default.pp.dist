@@ -1,4 +1,10 @@
-$project_name = "PROJECT-NAME"
+$host_name = "symfony-project.dev"
+$db_name = "symfony" # production env db name, should not be longer than 12 characters
+$db_name_dev = "${db_name}-dev" # dev env db name, should not be longer than 12 characters
+$db_name_tst = "${db_name}-tst" # tst env db name, should not be longer than 12 characters
+$install_selenium = false
+
+
 
 group { 'puppet': ensure => present }
 Exec { path => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ] }
@@ -50,7 +56,6 @@ package { [
     'vim',
     'curl',
     'git-core',
-    'firefox',
     'mc'
   ]:
   ensure  => 'installed',
@@ -64,12 +69,12 @@ apache::dotconf { 'custom':
 
 apache::module { 'rewrite': }
 
-apache::vhost { "${project_name}.dev":
-  server_name   => "${project_name}.dev",
+apache::vhost { "${host_name}":
+  server_name   => "${host_name}",
   serveraliases => [
-    "www.${project_name}.dev"
+    "www.${host_name}"
   ],
-  docroot       => "/var/www/${project_name}/web/",
+  docroot       => "/var/www/symfony2_app/web/",
   port          => '80',
   env_variables => [
 ],
@@ -149,47 +154,56 @@ puphpet::ini { 'custom':
 
 
 class { 'mysql::server':
-  config_hash   => { 'root_password' => 'toor' }
+  config_hash   => { 'root_password' => '' }
 }
 
-mysql::db { "${project_name}":
+mysql::db { "${db_name}":
   grant    => [
     'ALL'
   ],
-  user     => "${project_name}",
-  password => "${project_name}",
+  user     => "${db_name}",
+  password => "${db_name}",
   host     => 'localhost',
   charset  => 'utf8',
   require  => Class['mysql::server'],
 }
 
-mysql::db { "${project_name}-tst":
+mysql::db { "${db_name_tst}":
   grant    => [
     'ALL'
   ],
-  user     => "${project_name}-tst",
-  password => "${project_name}-tst",
+  user     => "${db_name_tst}",
+  password => "${db_name_tst}",
   host     => 'localhost',
   charset  => 'utf8',
   require  => Class['mysql::server'],
 }
 
-mysql::db { "${project_name}-dev":
+mysql::db { "${db_name_dev}":
   grant    => [
     'ALL'
   ],
-  user     => "${project_name}-dev",
-  password => "${project_name}-dev",
+  user     => "${db_name_dev}",
+  password => "${db_name_dev}",
   host     => 'localhost',
   charset  => 'utf8',
   require  => Class['mysql::server'],
 }
 
-class { 'java': }
+if $install_selenium == 'true' {
+    class { 'java': }
 
-class { 'xvfb': }
+    class { 'xvfb': }
 
-class { "selenium":
-  version => "2.33.0",
-  require => Class['java', 'xvfb']
+    class { "selenium":
+      version => "2.35.0",
+      require => Class['java', 'xvfb']
+    }
+
+    package { [
+        'firefox'
+      ]:
+      ensure  => 'installed',
+    }
 }
+
