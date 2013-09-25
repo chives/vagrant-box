@@ -1,3 +1,21 @@
+# Description
+Vagrant box is full stack vagrant configuration for any Symfony2 based project. Its ready to use after 
+very simple installation.  
+It includes following software: 
+
+* PHP 5.4.19 
+* MySQL 5.5.32
+* GIT 1.7.9.5
+* Apache 2.2.22
+* Vim
+* MC (Midnight commander)
+* Curl
+* Xdebug
+* Composer
+* Java (installed only when ``$install_selenium`` var in manifests/default.pp have "true" value)
+* Selenium (installed only when ``$install_selenium`` var in manifests/default.pp have "true" value)
+* Firefox 24 (installed only when ``$install_selenium`` var in manifests/default.pp have "true" value)
+
 # Installation
 
 First of all clone this repo into ``vagrant`` folder in your project's root directory. Then follow instructions below
