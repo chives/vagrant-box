@@ -1,5 +1,5 @@
 # Description
-Vagrant box is full stack vagrant configuration for any Symfony2 based project. Its ready to use after 
+FSi Vagrant box is full stack vagrant configuration for any existing Symfony2 based project. Its ready to use after
 very simple installation.  
 It includes following software: 
 
@@ -18,14 +18,26 @@ It includes following software:
 
 # Installation
 
-First of all clone this repo into ``vagrant`` folder in your project's root directory. Then follow instructions below
+First of all clone this repo into ``vagrant`` folder in your project's root directory. 
 
-## Vagrantfile
+```
+$ git clone git@github.com:fsi-open/vagrant-box.git vagrant
+```
+
+Now you need to install submodules
+
+```
+$ cd vagrant
+$ git submodules init
+$ git submodules update
+```
+
+### Prepare Vagrantfile
 
 Copy file ``vagrant/Vagrantfile.dist`` to ``vagrant/Vagrantfile`` and change "PROJECT-NAME" in it to something uniquely
 identifying your project.
 
-## Default puppet manifest
+### Prepare puppet manifest
 
 Copy ``vagrant/manifests/default.pp.dist`` file content to ``vagrant/manifests/default.pp``  
 Now you can change values of configuration variables to make your project more personal.
@@ -54,12 +66,12 @@ parameters:
     secret: ThisTokenIsNotSoSecretChangeIt
 ```
 
-## Install dependincies
+### Install dependencies
 
 Then you can install dependencies from composer.json file if you don't have them already.
 This can be done in 2 different ways, from host machine and from vm machine.
 
-### Install vendors from host machine (recommended) 
+#### Install vendors from host machine (recommended) 
 
 This should be done by developers that needs vendors for IDE code suggestions. Its also much faster than
 installing deps from VM.
@@ -68,7 +80,7 @@ installing deps from VM.
 & composer.phar install
 ```
 
-### Install vendors from virtual machine (not recommended) 
+#### Install vendors from virtual machine (not recommended) 
 
 ```
 $ cd vagrant
@@ -78,17 +90,7 @@ $ COMPOSER_VENDOR_DIR=/var/tmp/vendor composer install --dev --prefer-dist --no-
 $ ln -s /var/tmp/vendor vendor
 ```
 
-## Install application's schema, assets, etc
-
-```
-$ vagrant ssh
-$ cd /var/www/symfony2_app
-$ php app/console doctrine:schema:create --env="test"
-$ php app/console ca:cl --env="test"
-$ php app/console assets:install web --symlink
-```
-
-## /etc/hosts
+### /etc/hosts
 
 Now you should add project domain (``$host_name`` from default.pp file) to /etc/hosts file at your host machine. 
 

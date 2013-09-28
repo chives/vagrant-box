@@ -154,7 +154,7 @@ puphpet::ini { 'custom':
 
 
 class { 'mysql::server':
-  config_hash   => { 'root_password' => '' }
+  override_options => { 'root_password' => '', }
 }
 
 mysql::db { "${db_name}":
