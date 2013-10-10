@@ -28,8 +28,8 @@ Now you need to install submodules
 
 ```
 $ cd vagrant
-$ git submodules init
-$ git submodules update
+$ git submodule init
+$ git submodule update
 ```
 
 ### Prepare Vagrantfile
