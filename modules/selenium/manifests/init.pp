@@ -34,5 +34,14 @@ class selenium($version) {
       source => "$directory/selenium-server-standalone-$version.jar",
       require => Exec["download"],
     }
+
+    file { "/etc/init.d/selenium":
+      source => "puppet:///modules/selenium/selenium.init",
+      mode => 755,
+    }
+
+    file { "/etc/environment":
+        content => inline_template("DISPLAY=:99")
+    }
   }
 }

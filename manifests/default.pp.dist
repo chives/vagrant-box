@@ -1,22 +1,16 @@
+## Configuration START
+
 $host_name = "symfony-project.dev"
 $db_name = "symfony" # production env db name, should not be longer than 12 characters
 $db_name_dev = "${db_name}-dev" # dev env db name, should not be longer than 12 characters
 $db_name_tst = "${db_name}-tst" # tst env db name, should not be longer than 12 characters
 $install_selenium = false
 
-
+## Configuration END
 
 group { 'puppet': ensure => present }
 Exec { path => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ] }
 File { owner => 0, group => 0, mode => 0644 }
-
-file { "/dev/shm/sf2app":
-  ensure => directory,
-  purge => true,
-  force => true,
-  owner => vagrant,
-  group => vagrant
-}
 
 file { "/var/lock/apache2":
   ensure => directory,
@@ -42,13 +36,6 @@ and title != 'software-properties-common'
 
 apt::ppa { 'ppa:ondrej/php5-oldstable':
   require => Apt::Key['4F4EA0AAE5267A6C']
-}
-
-class { 'puphpet::dotfiles': }
-
-host { 'mysql.fsi.pl':
-    ip => '127.0.0.1',
-    host_aliases => 'localhost'
 }
 
 package { [
@@ -88,6 +75,7 @@ class { 'php':
 }
 
 php::module { 'php5-mysql': }
+php::module { 'php5-sqlite': }
 php::module { 'php5-cli': }
 php::module { 'php5-curl': }
 php::module { 'php5-intl': }
@@ -109,49 +97,16 @@ php::pear::module { 'PHPUnit':
   require => Class['php::pear']
 }
 
-class { 'xdebug':
-  service => 'apache',
-}
-
-class { 'composer':
-  require => Package['php5', 'curl'],
-}
-
-puphpet::ini { 'xdebug':
+php::ini { 'php_ini_configuration':
   value   => [
-    'xdebug.default_enable = 1',
-    'xdebug.remote_autostart = 0',
-    'xdebug.remote_connect_back = 1',
-    'xdebug.remote_enable = 1',
-    'xdebug.remote_handler = "dbgp"',
-    'xdebug.remote_port = 9000'
-  ],
-  ini     => '/etc/php5/conf.d/zzz_xdebug.ini',
-  notify  => Service['apache'],
-  require => Class['php'],
-}
-
-puphpet::ini { 'php':
-  value   => [
-    'date.timezone = "Europe/Warsaw"'
-  ],
-  ini     => '/etc/php5/conf.d/zzz_php.ini',
-  notify  => Service['apache'],
-  require => Class['php'],
-}
-
-puphpet::ini { 'custom':
-  value   => [
+    'date.timezone = "Europe/Warsaw"',
     'display_errors = On',
     'error_reporting = -1',
-    'short_open_tag = 0',
-    'xdebug.max_nesting_level = 1000'
+    'short_open_tag = 0'
   ],
-  ini     => '/etc/php5/conf.d/zzz_custom.ini',
   notify  => Service['apache'],
-  require => Class['php'],
+  require => Class['php']
 }
-
 
 class { 'mysql::server':
   override_options => { 'root_password' => '', }
@@ -191,19 +146,26 @@ mysql::db { "${db_name_dev}":
 }
 
 if $install_selenium == 'true' {
-    class { 'java': }
-
-    class { 'xvfb': }
-
-    class { "selenium":
+    class{ 'xvfb': }
+    class{ 'java': }
+    class{ 'selenium':
       version => "2.35.0",
-      require => Class['java', 'xvfb']
+      require => Class['java', 'xvfb'],
+      notify  => Service['apache'],
     }
 
     package { [
         'firefox'
       ]:
       ensure  => 'installed',
+    }
+
+    service { "selenium":
+      ensure => running,
+      enable => true,
+      hasstatus => true,
+      hasrestart => true,
+      require => Class['selenium']
     }
 }
 
