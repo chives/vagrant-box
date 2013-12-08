@@ -10,32 +10,22 @@ It includes following software:
 * Vim
 * MC (Midnight commander)
 * Curl
-* Xdebug
-* Composer
 * Java (installed only when ``$install_selenium`` var in manifests/default.pp have "true" value)
 * Selenium (installed only when ``$install_selenium`` var in manifests/default.pp have "true" value)
-* Firefox 24 (installed only when ``$install_selenium`` var in manifests/default.pp have "true" value)
+* Firefox (installed only when ``$install_selenium`` var in manifests/default.pp have "true" value)
 
 # Installation
 
-First of all clone this repo into ``vagrant`` folder in your project's root directory. 
+Clone this repo into ``vagrant`` folder in your project's root directory and remove .git folder
 
 ```
-$ git clone git@github.com:fsi-open/vagrant-box.git vagrant
-```
-
-Now you need to install submodules
-
-```
-$ cd vagrant
-$ git submodule init
-$ git submodule update
+$ git clone git@github.com:fsi-open/vagrant-box.git vagrant && rm -rf vagrant/.git
 ```
 
 ### Prepare Vagrantfile
 
-Copy file ``vagrant/Vagrantfile.dist`` to ``vagrant/Vagrantfile`` and change "PROJECT-NAME" in it to something uniquely
-identifying your project.
+Copy file ``vagrant/Vagrantfile.dist`` to ``vagrant/Vagrantfile`` and change "PROJECT-NAME" in it to something
+uniquely that identify your project.
 
 ### Prepare puppet manifest
 
@@ -69,7 +59,6 @@ parameters:
 ### Install dependencies
 
 Then you can install dependencies from composer.json file if you don't have them already.
-This can be done in 2 different ways, from host machine and from vm machine.
 
 #### Install vendors from host machine (recommended) 
 
@@ -80,16 +69,6 @@ installing deps from VM.
 & composer.phar install
 ```
 
-#### Install vendors from virtual machine (not recommended) 
-
-```
-$ cd vagrant
-$ vagrant ssh
-$ cd /var/www/symfony2_app
-$ COMPOSER_VENDOR_DIR=/var/tmp/vendor composer install --dev --prefer-dist --no-scripts
-$ ln -s /var/tmp/vendor vendor
-```
-
 ### /etc/hosts
 
 Now you should add project domain (``$host_name`` from default.pp file) to /etc/hosts file at your host machine. 
@@ -97,5 +76,4 @@ Now you should add project domain (``$host_name`` from default.pp file) to /etc/
 ```
 10.0.0.200      'symfony-project.dev'
 ```
-
 From now you should be able to access site at host machine under http://symfony-project.dev/ address.
