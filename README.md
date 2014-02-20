@@ -27,34 +27,10 @@ $ git clone git@github.com:fsi-open/vagrant-box.git vagrant && rm -rf vagrant/.g
 Copy file ``vagrant/Vagrantfile.dist`` to ``vagrant/Vagrantfile`` and change "PROJECT-NAME" in it to something
 uniquely that identify your project.
 
-### Prepare puppet manifest
+### Prepare variables file
 
-Copy ``vagrant/manifests/default.pp.dist`` file content to ``vagrant/manifests/default.pp``  
+Copy ``vagrant/provisioning/variables.yml.dist`` file content to ``vagrant/provisioning/variables.yml``
 Now you can change values of configuration variables to make your project more personal.
-
-* ``$host_name = "symfony-project.dev"`` - project domain (it will be used in /etc/hosts) 
-* ``$db_name = "symfony"`` - production database, username and pasword (can't be longer than 12 characters) 
-* ``$db_name_dev = "${db_name}-dev"`` - dev database, username and pasword (can't be longer than 12 characters)
-* ``$db_name_tst = "${db_name}-tst"`` - test database, username and pasword (can't be longer than 12 characters)
-* ``$install_selenium = false`` - change ``false`` to ``"true"`` if you want to install java and selenium
-
-For the above configuration you should have following configuration in app/config/parameters.yml file 
-
-```yml
-parameters:
-    database_driver: pdo_mysql
-    database_host: 127.0.0.1
-    database_port: null
-    database_name: symfony
-    database_user: symfony
-    database_password: symfony
-    mailer_transport: smtp
-    mailer_host: 127.0.0.1
-    mailer_user: null
-    mailer_password: null
-    locale: en
-    secret: ThisTokenIsNotSoSecretChangeIt
-```
 
 ### Install dependencies
 
