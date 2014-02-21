@@ -2,7 +2,7 @@
 # Project
 project_name: symfony.dev
 project_root: /var/www/symfony2_app
-project_web_root: /var/www/fsi-oauth/web
+project_web_root: "{{ project_root }}/web"
 project_databases: ['symfony', 'symfony-dev', 'symfony-tst']
 
 # Composer
