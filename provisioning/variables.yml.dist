@@ -1,7 +1,7 @@
 ---
 # Project
-project_name: symfony.dev
-project_root: /var/www/symfony2_app
+project_name: symfony.dev # change to something more descriptive
+project_root: /var/www/symfony2_app # change to something more descriptive
 project_web_root: "{{ project_root }}/web"
 project_databases: ['symfony', 'symfony-dev', 'symfony-tst']
 

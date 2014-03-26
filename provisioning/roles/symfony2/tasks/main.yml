@@ -1,10 +1,12 @@
 ---
 
 - name: Set cache folder permissions
-  shell: >
-    APACHEUSER=`ps aux | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data' | grep -v root | head -1 | cut -d\  -f1` &&
-    setfacl -R -m u:"$APACHEUSER":rwX -m u:`whoami`:rwX {{ project_root }}/app/cache {{ project_root }}/app/logs &&
-    setfacl -dR -m u:"$APACHEUSER":rwX -m u:`whoami`:rwX {{ project_root }}/app/cache {{ project_root }}/app/logs
+  file: 
+    path=/dev/shm/{{ project_name }}/cache recurse=yes state=directory owner=vagrant group=vagrant mode=0775
+    
+- name: Set logs folder permissions
+  file: 
+    path=/dev/shm/{{ project_name }}/logs recurse=yes state=directory owner=vagrant group=vagrant mode=0775
 
 - name: Create apache2 configuration
   template:
@@ -16,6 +18,9 @@
     src: /etc/apache2/sites-available/{{ project_name }}-configuration.conf
     dest: /etc/apache2/sites-enabled/{{ project_name }}-configuration.conf
     state: link
+    owner: vagrant
+    group: vagrant
+    mode: 0775
   notify: restart apache
 
 - name: Create prod database
