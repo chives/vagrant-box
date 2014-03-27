@@ -12,9 +12,12 @@
     - headers
     - expires
     - filter
-
-- name: Chown /var/www to vagrant
-  file: owner=vagrant group=vagrant mode=0775 path=/var/www state=directory
+  
+- name: Chown /var/log/apache2 to vagrant
+  file: owner=vagrant group=vagrant path=/var/log/apache2 state=directory
+  
+- name: Chown /var/lock/apache2 to vagrant
+  file: owner=vagrant group=vagrant path=/var/lock/apache2 state=directory
   
 - name: Change APACHE_RUN_USER in envvars to vagrant
   lineinfile: dest=/etc/apache2/envvars regexp="^.*RUN_USER\=" line="export APACHE_RUN_USER=vagrant"
