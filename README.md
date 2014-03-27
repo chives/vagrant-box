@@ -24,7 +24,7 @@ $ git clone git@github.com:fsi-open/vagrant-box.git vagrant && rm -rf vagrant/.g
 
 ### Prepare Vagrantfile
 
-Copy file ``vagrant/Vagrantfile.dist`` to ``vagrant/Vagrantfile`` and change "PROJECT-NAME" and "PROJECT-DIR" in it to something
+Copy file ``vagrant/Vagrantfile.dist`` to ``vagrant/Vagrantfile`` and change "PROJECT-NAME" in it to something
 uniquely that identify your project. 
 
 ### Prepare variables file
