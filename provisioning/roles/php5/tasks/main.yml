@@ -1,4 +1,7 @@
 ---
+- name: Add php repository
+  apt_repository: repo='ppa:ondrej/php5-oldstable' state=present
+
 - name: Install PHP 
   apt: name=php5 state=latest
 
