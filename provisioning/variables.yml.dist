@@ -8,7 +8,9 @@ project_databases: ['symfony', 'symfony-dev', 'symfony-tst']
 # Composer
 composer_download_url: https://getcomposer.org/composer.phar
 
-#MySQL
+# MySQL
 mysql_port: 3306
 mysql_root_db_pass: ""
 
+# PHP
+php_version: 5.4 # could be 5.3, 5.4 or 5.5
