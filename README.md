@@ -3,7 +3,7 @@ FSi Vagrant box is full stack vagrant configuration for any existing Symfony2 ba
 very simple installation.  
 It includes following software: 
 
-* PHP 5.4.19 
+* PHP 5.3, 5.4 or 5.5
 * MySQL 5.5.32
 * GIT 1.7.9.5
 * Apache 2.2.22
