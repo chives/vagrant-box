@@ -29,8 +29,14 @@
     - php5-intl
     - php5-mcrypt
 
+- name: Configure PHP for apache and CLI
+  template: src=php_config.ini.j2 dest=/etc/php5/conf.d/php_config.ini
+  when: php_version == 5.3
+
 - name: Configure PHP for apache
   template: src=php_config.ini.j2 dest=/etc/php5/apache2/conf.d/php_config.ini
+  when: php_version == 5.5 or php_version == 5.4
 
 - name: Configure PHP for CLI
   template: src=php_config.ini.j2 dest=/etc/php5/cli/conf.d/php_config.ini
+  when: php_version == 5.5 or php_version == 5.4
